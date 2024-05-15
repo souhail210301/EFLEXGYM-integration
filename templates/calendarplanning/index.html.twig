@@ -1,0 +1,53 @@
+{% extends 'index.html.twig' %}
+
+{% block title %}Planning Calendar{% endblock %}
+
+
+
+{% block sarra %}
+    
+
+    {# Display flash messages #}
+    {% for flash_message in app.session.flashbag.get('danger') %}
+        <div class="alert alert-danger" role="alert">
+            {{ flash_message }}
+        </div>
+    {% endfor %}
+    <style>
+        /* Custom CSS styles for the calendar */
+        #calendar {
+            background-color: white; /* Set the background color of the calendar to white */
+            border-radius: 8px; /* Optional: Add rounded corners */
+            padding: 20px; /* Optional: Add some padding */
+        }
+    </style>
+
+    <div id='calendar'></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js" integrity="sha256-i4vDW9EgtaJmeauDDymtNF2omPZ1fCKpf4w1gBlU1IE=" crossorigin="anonymous"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events: [
+                    {% for planning in plannings %}
+                        {
+                            title: '{{ planning.salle }} - {{ planning.cour.nom }}',
+                            start: '{{ planning.date|date("Y-m-d") }}T{{ planning.heure }}',
+                            url: '{{ path('app_reservation_new', {'planningId': planning.id}) }}' // Updated URL to include only the planningId parameter
+                        },
+                    {% endfor %}
+                ],
+                eventClick: function(info) {
+                    // Redirect to reservation form when a planning is clicked
+                    window.location.href = info.event.url;
+                }
+            });
+            calendar.render();
+        });
+    </script>
+
+   
+{% endblock %}

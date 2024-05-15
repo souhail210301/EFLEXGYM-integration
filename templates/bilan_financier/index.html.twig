@@ -1,0 +1,90 @@
+
+{% extends 'back.html.twig' %}
+{% block title %}Liste des bilans financiers {% endblock %}
+
+{% block body %}
+    <h1>Liste des bilans financiers </h1>
+     <div>
+        <form method="get" action="{{ path('app_bilan_financier_index') }}">
+         <form method="get" action="{{ path('app_bilan_financier_index') }}">
+            <label for="sort_field">Trier par :</label>
+            <select name="sort_field" id="sort_field">
+                <option value="">Non trié</option>
+       
+                <option value="revenusAbonnements">Revenus des abonnements</option>
+                <option value="revenusProduits">Revenus des produits</option>
+                <option value="profit">Profit</option>
+            </select>
+            <label for="sort_direction">Direction :</label>
+            <select name="sort_direction" id="sort_direction">
+                <option value="asc">Ascendant</option>
+                <option value="desc">Descendant</option>
+            </select>
+            <button type="submit">Trier</button>
+            <a href="{{ path('app_bilan_financier_index') }}" class="btn btn-primary">Actualiser</a>
+        </form>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Mois</th>
+                <th>DateDebut</th>
+                <th>DateFin</th>
+                <th>SalairesCoachs</th>
+                <th>PrixLocation</th>
+                <th>RevenusAbonnements</th>
+                <th>RevenusProduits</th>
+                <th>Depenses</th>
+                <th>Profit</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for bilan_financier in bilan_financiers %}
+            <tr>
+               <td>{{ bilan_financier.dateDebut|date('n') }}</td>
+                <td>{{ bilan_financier.dateDebut ? bilan_financier.dateDebut|date('Y-m-d') : '' }}</td>
+                <td>{{ bilan_financier.dateFin ? bilan_financier.dateFin|date('Y-m-d') : '' }}</td>
+                <td>{{ bilan_financier.salairesCoachs }}</td>
+                <td>{{ bilan_financier.prixLocation }}</td>
+                <td>{{ bilan_financier.revenusAbonnements }}</td>
+                <td>{{ bilan_financier.revenusProduits }}</td>
+                <td>{{ bilan_financier.depenses }}</td>
+                <td>{{ bilan_financier.profit }}</td>
+                <td >
+                   <a href="{{ path('app_bilan_financier_show', {'id': bilan_financier.id}) }}"><i class="fas fa-eye"></i></a>
+                    {{ include('bilan_financier/_delete_form.html.twig', {'id': bilan_financier.id}) }}
+                  <a href="{{ path('app_bilan_financier_generate_pdf', {'id': bilan_financier.id}) }}" class="btn btn-primary">Générer PDF</a>
+
+                </td>
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <style>
+    .pagination a {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    color: #333;
+    text-decoration: none;
+}
+
+.pagination a.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.pagination a:hover {
+    background-color: #ddd;
+}
+
+    </style>
+
+   <a href="{{ path('app_bilan_financier_new') }}" class="btn btn-success"><i class="fas fa-plus"></i> Créer un nouveau bilan financier</a>
+{% endblock %}

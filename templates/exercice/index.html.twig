@@ -1,0 +1,170 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Exercice index{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center">
+        <h1 class="mb-0">Exercices </h1>
+        <a href="{{ path('app_exercice_new') }}" class="btn btn-primary">Create New</a>
+    </div>
+    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+        <div class="input-group">
+            <input class="form-control" type="text" id="searchInput" placeholder="Search for..."
+                aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+            <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+        </div>
+    </form>
+    <br>
+    <table id="exerciceTable" class="table">
+        <thead>
+            <tr>
+                <th>Id <span id="idSortIcon"></span></th>
+                <th onclick="sortTable(1)">Nom <span id="nomSortIcon"></span></th>
+                <th onclick="sortTable(2)">Description <span id="descriptionSortIcon"></span></th>
+                <th onclick="sortTable(3)">Nombre De Set <span id="nbrdesetSortIcon"></span></th>
+                <th onclick="sortTable(4)">Groupe Musculaire <span id="groupemusculaireSortIcon"></span></th>
+                <th onclick="sortTable(5)">Nombre De Repetitions <span id="nbrderepetitionsSortIcon"></span></th>
+                <th onclick="sortTable(6)">Categorie Exercice <span id="categorieexerciceSortIcon"></span></th>
+                <th onclick="sortTable(7)">Type Equipement <span id="typeequipementSortIcon"></span></th>
+                <th>Programme</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for exercice in exercices %}
+            <tr>
+                <td>{{ exercice.id }}</td>
+                <td>{{ exercice.nom }}</td>
+                <td>{{ exercice.description }}</td>
+                <td>{{ exercice.nbrdeset }}</td>
+                <td>{{ exercice.groupemusculaire }}</td>
+                <td>{{ exercice.nbrderepetitions }}</td>
+                <td>{{ exercice.categorieexercice }}</td>
+                <td>{{ exercice.typeequipement }}</td>
+                <td>
+                    <ul>
+                        {% for programme in exercice.programmes %}
+                        <li>{{ programme.objectif }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <div class="col-auto mb-2">
+                        <a class="btn btn-primary" href="{{ path('app_exercice_show', {'id': exercice.id}) }}">
+                            <i class="fa-solid fa-eye"></i>
+                        </a>
+                    </div>
+                    <div class="col-auto mb-2">
+                        <a class="btn btn-success" href="{{ path('app_exercice_edit', {'id': exercice.id}) }}">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                    </div>
+                    <div class="col-auto mb-2">
+                        {{ include('exercice/_delete_form.html.twig') }}
+                    </div>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    var ascending = true; // Initial sorting order
+
+    function sortTable(columnIndex) {
+        var table, rows, switching, i, x, y, shouldSwitch;
+        table = document.getElementById("exerciceTable");
+        switching = true;
+        while (switching) {
+            switching = false;
+            rows = table.rows;
+            for (i = 1; i < (rows.length - 1); i++) {
+                shouldSwitch = false;
+                x = rows[i].getElementsByTagName("TD")[columnIndex];
+                y = rows[i + 1].getElementsByTagName("TD")[columnIndex];
+                if (ascending) {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+            }
+        }
+        // Toggle sorting order
+        ascending = !ascending;
+        // Update sorting icons
+        updateSortIcons(columnIndex);
+    }
+
+    function updateSortIcons(columnIndex) {
+        var iconId = getColumnSortIconId(columnIndex);
+        var iconElement = document.getElementById(iconId);
+        if (iconElement) {
+            iconElement.innerHTML = ascending ? '<i class="fa-solid fa-caret-up"></i>' : '<i class="fa-solid fa-caret-down"></i>';
+        }
+    }
+
+    function getColumnSortIconId(columnIndex) {
+        switch (columnIndex) {
+            case 0: return 'idSortIcon';
+            case 1: return 'nomSortIcon';
+            case 2: return 'descriptionSortIcon';
+            case 3: return 'nbrdesetSortIcon';
+            case 4: return 'groupemusculaireSortIcon';
+            case 5: return 'nbrderepetitionsSortIcon';
+            case 6: return 'categorieexerciceSortIcon';
+            case 7: return 'typeequipementSortIcon';
+            default: return '';
+        }
+    }
+
+    // Function to perform search
+    function searchTable() {
+        var input, filter, table, tr, td, i, j, txtValue;
+        input = document.getElementById("searchInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("exerciceTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 1; i < tr.length; i++) { // Start from index 1 to skip the header row
+            td = tr[i].getElementsByTagName("td");
+            var found = false;
+            for (j = 0; j < td.length; j++) {
+                if (td[j]) {
+                    txtValue = td[j].textContent || td[j].innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            if (found) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+
+
+    // Attach event listener to the search input
+    document.getElementById("searchInput").addEventListener("keyup", function () {
+        searchTable();
+    });
+</script>
+{% endblock %}

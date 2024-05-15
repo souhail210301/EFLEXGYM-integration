@@ -1,0 +1,66 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}New Planning{% endblock %}
+
+{% block body %}
+    <h1>Create new Planning</h1>
+
+    {{ form_start(form) }}
+    {{ form_row(form.salle) }}
+    {{ form_row(form.nbPlaceMax) }}
+    {{ form_row(form.date) }}
+    {{ form_row(form.heure) }}
+    {{ form_row(form.cour) }}
+    {{ form_row(form.coach) }}
+    <button type="submit" onclick="return validateForm()">Save</button>
+{{ form_end(form) }}
+
+    <script>
+
+        function validateForm() {
+            var salleField = document.getElementById('{{ form.salle.vars.id }}');
+            var salleValue = salleField.value.trim();
+            if (salleValue === '') {
+                alert('La salle ne peut pas être vide.');
+                salleField.focus();
+                return false;
+            }
+
+            var nbPlaceMaxField = document.getElementById('{{ form.nbPlaceMax.vars.id }}');
+            var nbPlaceMaxValue = nbPlaceMaxField.value.trim();
+            if (nbPlaceMaxValue === '') {
+                alert('Le nombre de places maximum ne peut pas être vide.');
+                nbPlaceMaxField.focus();
+                return false;
+            }
+
+            var dateField = document.getElementById('{{ form.date.vars.id }}');
+            var dateValue = dateField.value.trim();
+            if (dateValue === '') {
+                alert('La date ne peut pas être vide.');
+                dateField.focus();
+                return false;
+            }
+              var today = new Date().toISOString().split('T')[0];
+            if (dateValue < today) {
+                alert('La date doit être égale ou postérieure à aujourd\'hui.');
+                dateField.focus();
+                return false;
+            }
+
+            var today = new Date().toISOString().split('T')[0];
+            if (dateValue < today) {
+                 alert('La date doit être égale ou postérieure à aujourd\'hui.');
+                 dateField.focus();
+                  return false;
+                  }
+
+
+            // Additional validation for the cour and coach fields if needed
+
+            return true;
+        }
+    </script>
+        <a href="{{ path('app_planning_index') }}">Back to list</a>
+
+{% endblock %}

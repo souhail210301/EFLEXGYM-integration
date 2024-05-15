@@ -1,0 +1,14 @@
+{% extends 'index.html.twig' %}
+{% block body %}
+{% block title %}Mon Abonnement{% endblock %}
+
+
+<h1>Mon Abonnement</h1>
+<ul>
+    <li>Type: {{ abonnement.type }}</li>
+    <li>Prix: {{ abonnement.prix }}</li>
+    <li>Date de début: {{ abonnement.dateDebut|date('Y-m-d') }}</li>
+    <li>Date de fin: {{ abonnement.dateFin|date('Y-m-d') }}</li>
+    <li>État: {{ abonnement.etat }}</li>
+</ul>
+{% endblock %}

@@ -1,0 +1,18 @@
+{{ form_start(form) }}
+    {{ form_row(form.dateDebut) }}
+    {{ form_row(form.dateFin) }}
+    {{ form_row(form.salairesCoachs) }}
+   
+    {{ form_row(form.prixLocation) }}
+    {{ form_row(form.revenusAbonnements) }}
+    {{ form_row(form.revenusProduits) }}
+
+    {{ form_row(form.depenses) }}
+   
+
+
+   
+    {{ form_row(form.profit) }}
+    <button class="btn">{{ button_label|default('sauvegarder') }}</button>
+{{ form_end(form) }}
+

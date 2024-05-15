@@ -1,0 +1,28 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}New ProgrammePersonnalise{% endblock %}
+
+{% block body %}
+<style>
+    .back-link {
+        color: #007bff;
+        /* Change color to your preferred color */
+        text-decoration: none;
+        /* Remove default underline */
+        font-size: 24px;
+        /* Adjust font size as needed */
+        margin-right: 10px;
+        /* Add some margin to the right */
+    }
+</style>
+<div class="container">
+    <a href="{{ path('app_programme_personnalise_index') }}" class="back-link">
+        <i class="fa-solid fa-arrow-left"></i>
+    </a>
+    <div class="d-flex align-items-center">
+        <h1>Create new Programme Personnalise</h1>
+    </div>
+    {{ include('programme_personnalise/_form.html.twig') }}
+
+</div>
+{% endblock %}

@@ -1,0 +1,130 @@
+{% extends 'back.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.1.4/css/sb-admin-2.min.css" rel="stylesheet">
+    <style>
+        .container-fluid {
+            padding-top: 20px;
+        }
+        .login-box {
+            background-color: #fff;
+            border-radius: 1rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+        .card {
+            border: 0;
+            border-radius: 1rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+        .card-body {
+            padding: 3rem; /* Increased padding for larger card body */
+            overflow-y: auto; /* Add scrollbar to card body */
+            max-height: calc(100vh - 200px); /* Set max height for the card body */
+        }
+        .card-header {
+            font-weight: bold;
+            background-color: #4e73df;
+            color: #ffffff;
+            border-radius: 1rem 1rem 0 0;
+        }
+        .form-control {
+            border-radius: 0.5rem;
+        }
+        .btn-primary {
+            border-radius: 0.5rem;
+        }
+        .table {
+            border-radius: 1rem;
+            overflow-x: auto; /* Add horizontal scrollbar if needed */
+            max-width: 100%; /* Ensure table doesn't extend beyond container */
+        }
+        .table th,
+        .table td {
+            white-space: nowrap; /* Prevent table cells from wrapping */
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row flex-nowrap justify-content-center">
+        <div class="col-md-11"> <!-- Adjusted column width for larger card -->
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title text-center mb-4">User index</h1>
+                    <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search...">
+                    <div class="card">
+                        <div class="card-header">List of Users</div>
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Photo</th> <!-- Added column for photo -->
+                                        <th>Email</th>
+                                        <th>Name</th>
+                                        <th>Last Name</th>
+                                        <th>Birth Date</th>
+                                        <th>Gender</th>
+                                        <th>Roles</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="userTableBody">
+                                    {% for user in users %}
+                                    <tr>
+                                        <td>{{ user.id }}</td>
+                                        <td>{% if user.photo %}
+                                                <img src="{{ asset('uploads/photos/' ~ user.photo) }}" alt="User Photo" class="img-thumbnail" style="max-width: 50px;">
+                                            {% else %}
+                                                No photo
+                                            {% endif %}
+                                        </td> <!-- Show photo here -->
+                                        <td>{{ user.email }}</td>
+                                        <td>{{ user.name }}</td>
+                                        <td>{{ user.lastName }}</td>
+                                        <td>{{ user.birthDate|date('Y-m-d') }}</td>
+                                        <td>{{ user.gender }}</td>
+                                        <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                                        <td>
+                                            <a href="{{ path('app_user_show', {'id': user.id}) }}" class="btn btn-primary">Show</a>
+                                            <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="btn btn-success">Update</a>
+                                        </td>
+                                    </tr>
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="8">No records found</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="mb-3"><br>
+                        <a href="{{ path('app_user_new') }}" class="btn btn-success">Create new</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('searchInput');
+        const userTableBody = document.getElementById('userTableBody');
+
+        searchInput.addEventListener('input', function () {
+            const searchText = this.value.toLowerCase();
+
+            // Iterate over table rows and hide/show based on search text
+            Array.from(userTableBody.getElementsByTagName('tr')).forEach(function (row) {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchText) ? 'table-row' : 'none';
+            });
+        });
+    });
+</script>
+{% endblock %}

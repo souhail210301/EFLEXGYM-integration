@@ -1,0 +1,166 @@
+{% extends 'index.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block css %}
+    {{ parent() }}
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        .card {
+            background-color: #333;
+            color: #fff;
+            margin-bottom: 20px;
+            border: 1px solid #f8000;
+            border-radius: 8px;
+        }
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        .card-body {
+            padding: 15px;
+        }
+        .pagination-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .pagination-btn {
+            background-color: #f8000; /* Changed to orange */
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            margin: 0 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .pagination-btn:hover {
+            background-color: #ff9900; /* Darker shade of orange on hover */
+        }
+    </style>
+{% endblock %}
+
+{% block shop %}
+    <div class="container">
+        <h1 class="text-center">Produits</h1>
+        
+        <!-- Search input for real-time search -->
+        <input type="text" id="searchInput" oninput="search()" class="form-control mb-3" placeholder="Recherche en temps réel...">
+        
+        <!-- Category filter buttons -->
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-secondary" onclick="filterByCategory('alimentaire')">Alimentaire</button>
+            <button type="button" class="btn btn-secondary" onclick="filterByCategory('vestimentaire')">Vestimentaire</button>
+        </div>
+        <a href="{{ path('app_panier') }}">
+            <img src="{{ asset('uploads/panier.png') }}" width="35px;">
+        </a>
+                     
+       <div class="row" id="productContainer">
+            {% for key, produit in produits %}
+                <div class="col-md-4 product" data-page="{{ ((key // 3) + 1) }}" data-category="{{ produit.categorie }}">
+                    <div class="card mb-4 shadow-sm">
+                        <img src="{{ asset('uploads/' ~ produit.image ) }}" class="bd-placeholder-img card-img-top" alt="{{ produit.nom }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ produit.nom }}</h5>
+                            <p class="card-text">{{ produit.description }}</p>
+                            <p class="card-text">Price: ${{ produit.prix }}</p>
+                            {% if produit.getId() in existingArticles %}
+                                <button type="button" class="btn btn-success" onclick="{{ app.user ? 'addToCart(' ~ produit.getId() ~ ')' : 'window.location.href=\'' ~ path('app_login') ~ '\'' }}" data-product-id="{{ produit.getId() }}">deja exist </button>
+                            {% else %}
+                                <button type="button" class="btn btn-primary" onclick="{{ app.user ? 'addToCart(' ~ produit.getId() ~ ')' : 'window.location.href=\'' ~ path('app_login') ~ '\'' }}" data-product-id="{{ produit.getId() }}">ajouter au panier</button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="pagination-container" id="paginationContainer">
+            {% set totalProducts = produits|length %}
+            {% set totalPages = (totalProducts / 3)|round(0, 'ceil') %}
+            {% for page in range(1, totalPages ) %}
+                <button class="pagination-btn" onclick="paginate({{ page }})">{{ page }}</button>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <script>
+        function search() {
+            var input, filter, cards, title, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            cards = document.getElementsByClassName("product");
+
+            for (i = 0; i < cards.length; i++) {
+                title = cards[i].getElementsByClassName("card-title")[0];
+                txtValue = title.textContent || title.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    cards[i].style.display = "";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+
+        function paginate(page) {
+            document.querySelectorAll('.product').forEach(function(product) {
+                product.style.display = 'none';
+            });
+
+            document.querySelectorAll('.product[data-page="' + page + '"]').forEach(function(product) {
+                product.style.display = 'block';
+            });
+        }
+
+        function filterByCategory(category) {
+            var cards = document.getElementsByClassName("product");
+
+            for (var i = 0; i < cards.length; i++) {
+                var productCategory = cards[i].getAttribute("data-category");
+
+                if (category === "" || productCategory === category) {
+                    cards[i].style.display = "";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+          function addToCart(productId) {
+            fetch('{{ path('app_addToPanier', {'idp': '_productId_'})|replace({'_productId_': 'PLACEHOLDER'}) }}'.replace('PLACEHOLDER', productId), {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update the button to show "In Cart"
+                    const button = document.querySelector(`button[data-product-id="${productId}"]`);
+                    if (button) {
+                        button.innerText = 'In Cart';
+                        button.disabled = true;
+                        // Reload the page
+                        window.location.reload();
+                    }
+                } else {
+                    // Handle error
+                    alert('Failed to add product to cart');
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+{% endblock %}

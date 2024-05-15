@@ -1,0 +1,39 @@
+{% extends 'index.html.twig' %}
+
+{% block body %}
+<br>
+
+<div class="container">
+  <div class="row">
+    {% for recipe in recipes %}
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <img src="{{ recipe.image }}" class="card-img-top" alt="{{ recipe.label }}">
+        <div class="card-body">
+          <h5 class="card-title">{{ recipe.label }}</h5>
+          <p class="card-text">Source: {{ recipe.source }}</p>
+          <p class="card-text">Yield: {{ recipe.yield }}</p>
+          <p class="card-text">Calories: {{ recipe.calories }}</p>
+          <p class="card-text">Diet Labels: {{ recipe.dietLabels|join(', ') }}</p>
+          <p class="card-text">Health Labels: {{ recipe.healthLabels|join(', ') }}</p>
+          <p class="card-text">Cautions: {{ recipe.cautions|join(', ') }}</p>
+          <h6 class="card-subtitle mb-2 text-muted">Ingredients:</h6>
+          <ul class="list-group list-group-flush">
+            {% for ingredient in recipe.ingredients %}
+            <li class="list-group-item">{{ ingredient }}</li>
+            {% endfor %}
+          </ul>
+          <h6 class="card-subtitle mb-2 text-muted mt-3">Instructions:</h6>
+          <ol>
+            {% for instruction in recipe.instructions %}
+            <li>{{ instruction }}</li>
+            {% endfor %}
+          </ol>
+          <a href="{{ recipe.url }}" class="btn btn-primary">View Recipe</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

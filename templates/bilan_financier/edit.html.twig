@@ -1,0 +1,106 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Modifier un bilan financier{% endblock %}
+
+{% block body %}
+    <h1>Modifier un bilan financier</h1>
+  
+
+    <button onclick="obtenirRevenusAbonnements()">Obtenir Revenus Abonnements</button>
+    <span id="revenusAbonnementsSpan"></span><br><br>
+
+    <button onclick="obtenirRevenusProduits()">Obtenir Revenus Produits</button>
+    <span id="revenusProduitsSpan"></span><br><br>
+
+    <button onclick="obtenirSalairesCoachs()">Obtenir Salaires Coachs</button>
+    <span id="salairesCoachsSpan"></span><br><br>
+
+    <button onclick="calculerProfit()">Calculer Profit</button>
+    <span id="profitSpan"></span><br><br>
+    <!-- Lien pour revenir à la liste -->
+    <a href="{{ path('app_bilan_financier_index') }}">Retour à la liste</a>
+
+    <script>
+    var bilan_financier = {{ bilan_financier|json_encode|raw }};
+
+    function obtenirRevenusAbonnements() {
+        fetch("{{ path('app_bilan_financier_get_revenus_abonnements', {'id': bilan_financier.id}) }}")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('revenusAbonnementsSpan').innerText = "Revenus Abonnements: " + data.revenusAbonnements;
+            })
+            .catch(error => {
+                console.error('Erreur lors de la récupération des revenus des abonnements:', error);
+            });
+    }
+
+    function obtenirRevenusProduits() {
+        fetch("{{ path('app_bilan_financier_get_revenus_produits', {'id': bilan_financier.id}) }}")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('revenusProduitsSpan').innerText = "Revenus Produits: " + data.revenusProduits;
+            })
+            .catch(error => {
+                console.error('Erreur lors de la récupération des revenus des produits:', error);
+            });
+    }
+
+   
+
+    function calculerProfit() {
+        fetch("{{ path('app_bilan_financier_calculer_profit', {'id': bilan_financier.id}) }}")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('profitSpan').innerText = "Profit: " + data.profit;
+            })
+            .catch(error => {
+                console.error('Erreur lors du calcul du profit:', error);
+            });
+    }
+
+    
+</script>
+<style>
+    /* Style the alert box */
+    .alert {
+        padding: 20px;
+        background-color: #f44336; /* Red */
+        color: white;
+        margin-bottom: 15px;
+        border-radius: 5px;
+    }
+
+    /* Style the close button */
+    .closebtn {
+        margin-left: 15px;
+        color: white;
+        font-weight: bold;
+        float: right;
+        font-size: 22px;
+        line-height: 20px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    /* When hovering over the close button */
+    .closebtn:hover {
+        color: black;
+    }
+</style>
+
+{% endblock %}

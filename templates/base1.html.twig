@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <p>Email: {{ app.user.email }}</p>
+        <a href="{{ path('app_logout') }}">log out</a>
+    <br>
+    {% endif %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('role_admin') }}">admin page</a>
+
+        {% if path('role_admin') %}
+            <br>
+            <a href="{{ path('role_user') }}">user page</a>
+
+        {% endif %}
+    {% endif %}
+
+    <h1>{% block title %}Fitnessapp{% endblock %}</h1>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+    {%block stylesheets %}
+        <style>
+        </style>
+    {% endblock %}
+</head>
+<body>
+
+{% block body %}{% endblock %}
+<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+{% block javascripts %}{% endblock %}
+</body>
+</html>

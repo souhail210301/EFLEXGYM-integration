@@ -1,0 +1,97 @@
+{% extends 'base1.html.twig' %}
+
+{% block title %}Log in{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.1.4/css/sb-admin-2.min.css"
+          rel="stylesheet" xmlns="http://www.w3.org/1999/html">
+    <style>
+        .login-box {
+            background-color: #fff;
+            border-radius: 1rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+        .card {
+            border: 0;
+        }
+        .card-body {
+            padding: 2rem;
+        }
+        .card-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #343a40;
+        }
+        .form-control {
+            border-radius: 0.5rem;
+        }
+        .btn-primary {
+            border-radius: 0.5rem;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <!-- Replace the variables below. -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="login-box">
+                    <div class="card">
+                        <div class="card-body">
+                            <h1 class="card-title text-center mb-4">Log in</h1>
+                            <form method="post" id="login-form"> {# Add an id to the form for easier selection #}
+                                {% if error %}
+                                    <div class="alert alert-danger mb-3" role="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                                {% endif %}
+
+                                {% if app.user %}
+                                    <div class="alert alert-info mb-3">
+                                        You are already logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                                    </div>
+                                {% endif %}
+
+                                <div class="mb-3">
+                                    <label for="inputEmail" class="form-label">Email address</label>
+                                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputPassword" class="form-label">Password</label>
+                                    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                                </div>
+
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                                <button class="btn btn-primary w-100" type="submit">
+                                    <i class="fas fa-sign-in-alt me-2"></i> Sign in
+                                    
+                                </button>
+                               
+                                {# Add the Login with Google button/link #}
+                                <hr>
+                                <a href="{{ path('app_login_google') }}" class="btn btn-danger w-100">
+                                    <i class="fab fa-google me-2"></i> Login with Google
+                                </a>
+                                <div class="g-recaptcha" data-sitekey="6Lekc8spAAAAAKsDhOpZeD-WzYSk8ZR29YY8wVLE"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            var recaptchaResponse = grecaptcha.getResponse();
+            if (!recaptchaResponse) {
+                event.preventDefault();
+                alert('Please complete the CAPTCHA');
+            }
+        });
+    </script>
+{% endblock %}

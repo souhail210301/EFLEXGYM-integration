@@ -1,0 +1,56 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Nouveau bilan financier{% endblock %}
+
+{% block body %}
+    <h1>Ajouter un nouveau bilan financier</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.dateDebut) }}
+        {{ form_row(form.dateFin) }}
+        {{ form_row(form.salairesCoachs) }}
+        {{ form_row(form.prixLocation) }}
+        {{ form_row(form.revenusAbonnements) }}
+        {{ form_row(form.revenusProduits) }}
+        {{ form_row(form.depenses) }}
+        {{ form_row(form.profit) }}
+        
+        <button type="submit" class="btn">{{ button_label|default('Sauvegarder') }}</button>
+    {{ form_end(form) }}
+
+   
+
+    <a href="{{ path('app_bilan_financier_index') }}">Retour</a>
+
+    <style>
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/flaticon.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/barfiller.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/magnific-popup.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/slicknav.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css">
+
+        .alert {
+            padding: 20px;
+            background-color: #f44336; /* Red */
+            color: white;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+        .closebtn {
+            margin-left: 15px;
+            color: white;
+            font-weight: bold;
+            float: right;
+            font-size: 22px;
+            line-height: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .closebtn:hover {
+            color: black;
+        }
+    </style>
+{% endblock %}

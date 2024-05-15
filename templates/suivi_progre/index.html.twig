@@ -1,0 +1,237 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}SuiviProgre index{% endblock %}
+
+{% block body %}
+
+<div class="container">
+
+    <div class="d-flex justify-content-between align-items-center">
+        <h1 class="mb-0">Suivi Progre</h1>
+        {# <a href="{{ path('app_suivi_progre_new') }}" class="btn btn-primary">Create New</a> #}
+    </div>
+    <br>
+    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+        <div class="input-group">
+            <input class="form-control" type="text" id="searchInput" placeholder="Search for..."
+                aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+            <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+        </div>
+    </form>
+    <br>
+    <div class="d-flex justify-content-between align-items-center">
+        <div style="width: 500px;">
+            <h4>IMC Chart</h4>
+            <canvas id="imcChart"></canvas>
+        </div>
+        <div style="width: 500px;">
+            <h4>IMG Chart</h4>
+            <canvas id="imgChart"></canvas>
+        </div>
+    </div>
+    <br>
+    <table id="progreTable" class="table">
+        <thead>
+            <tr>
+                <th>Id <span id="idSortIcon"></span></th>
+                <th onclick="sortTable(1)">Nom <span id="nomSortIcon"></span></th>
+                <th onclick="sortTable(2)">Prenom <span id="prenomSortIcon"></span></th>
+                <th onclick="sortTable(3)">Age <span id="ageSortIcon"></span></th>
+                <th onclick="sortTable(4)">Taille <span id="tailleSortIcon"></span></th>
+                <th onclick="sortTable(5)">Poids <span id="poidsSortIcon"></span></th>
+                <th onclick="sortTable(6)">TourDeTaille <span id="tourDeTailleSortIcon"></span></th>
+                <th onclick="sortTable(7)">Sexe <span id="sexeSortIcon"></span></th>
+                <th onclick="sortTable(8)">Iduser <span id="iduserSortIcon"></span></th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        { % block nour % }
+        <tbody>
+            {% for suivi_progre in suivi_progres %}
+            <tr>
+                <td>{{ suivi_progre.id }}</td>
+                <td>{{ suivi_progre.nom }}</td>
+                <td>{{ suivi_progre.prenom }}</td>
+                <td>{{ suivi_progre.age }}</td>
+                <td>{{ suivi_progre.taille }}</td>
+                <td>{{ suivi_progre.poids }}</td>
+                <td>{{ suivi_progre.tourDeTaille }}</td>
+                <td>{{ suivi_progre.sexe }}</td>
+                <td>{{ suivi_progre.iduser }}</td>
+                <td>
+                    <div class="row">
+                        <div class="col-auto ">
+                            <a class="btn btn-primary"
+                                href="{{ path('app_suivi_progre_showBack', {'id': suivi_progre.id}) }}">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                        </div>
+                        <div class="col-auto ">
+                            <a class="btn btn-success"
+                                href="{{ path('app_suivi_progre_editBack', {'id': suivi_progre.id}) }}">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                        </div>
+                        <div class="col-auto ">
+                            <a class="btn btn-secondary" href="{{ path('app_message', {'id': suivi_progre.id}) }}">
+                                <i class="fa-solid fa-message"></i>
+                            </a>
+                        </div>
+                        <div class="col-auto ">
+                            {{ include('suivi_progre/_delete_form.html.twig') }}
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    var ascending = true;
+
+    function sortTable(columnIndex) {
+        var table, rows, switching, i, x, y, shouldSwitch;
+        table = document.getElementById("progreTable");
+        switching = true;
+        while (switching) {
+            switching = false;
+            rows = table.rows;
+            for (i = 1; i < (rows.length - 1); i++) {
+                shouldSwitch = false;
+                x = rows[i].getElementsByTagName("TD")[columnIndex];
+                y = rows[i + 1].getElementsByTagName("TD")[columnIndex];
+                if (ascending) {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+            }
+        }
+        // Toggle sorting order
+        ascending = !ascending;
+        // Update sorting icons
+        updateSortIcons(columnIndex);
+    }
+
+    function updateSortIcons(columnIndex) {
+        var iconId = getColumnSortIconId(columnIndex);
+        var iconElement = document.getElementById(iconId);
+        if (iconElement) {
+            iconElement.innerHTML = ascending ? '<i class="fa-solid fa-caret-up"></i>' : '<i class="fa-solid fa-caret-down"></i>';
+        }
+    }
+
+    function getColumnSortIconId(columnIndex) {
+        switch (columnIndex) {
+            case 1: return 'nomSortIcon';
+            case 2: return 'prenomSortIcon';
+            case 3: return 'ageSortIcon';
+            case 4: return 'tailleSortIcon';
+            case 5: return 'poidsSortIcon';
+            case 6: return 'tourDeTailleSortIcon';
+            case 7: return 'sexeSortIcon';
+            case 8: return 'iduserSortIcon';
+            default: return '';
+        }
+    }
+
+    // Function to perform search
+    function searchTable() {
+        var input, filter, table, tr, td, i, j, txtValue;
+        input = document.getElementById("searchInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("progreTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 1; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td");
+            var found = false;
+            for (j = 0; j < td.length; j++) {
+                if (td[j]) {
+                    txtValue = td[j].textContent || td[j].innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            if (found) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+
+
+    // Attach event listener to the search input
+    document.getElementById("searchInput").addEventListener("keyup", function () {
+        searchTable();
+    });
+
+    fetch('/suivi/progre/chartimc')
+        .then(response => response.json())
+        .then(chartData => {
+            // Add a check to include 0 if it's not already present in the data
+            if (!chartData.datasets[0].data.includes(0)) {
+                chartData.datasets[0].data.push(0);
+            }
+
+            // Render Chart using Chart.js
+            const ctx = document.getElementById('imcChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: chartData,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching chart data:', error);
+        });
+
+    fetch('/suivi/progre/chartimg')
+        .then(response => response.json())
+        .then(chartData => {
+            if (!chartData.datasets[0].data.includes(0)) {
+                chartData.datasets[0].data.push(0);
+            }
+            // Render Chart using Chart.js
+            const ctx = document.getElementById('imgChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: chartData,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching chart data:', error);
+        });
+</script>
+{% endblock %}

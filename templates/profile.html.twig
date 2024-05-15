@@ -1,0 +1,112 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}
+	<title>Gym | Profile</title>
+{% endblock %}
+
+{% block css %}
+	{{ parent() }}
+
+  <style>
+        /* Custom CSS to set background color */
+        .hero-section {
+            background-color: #000; /* Set the background color to black */
+            color: #fff; /* Set the text color to white */
+            padding: 50px 0; /* Add padding to the section */
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+
+<section class="hero-section">
+	<div class="hs-slider owl-carousel">
+		<div class="hs-item set-bg" data-setbg="img/hero/hero-1.jpg">
+			<div class="container">
+				<div class="row">
+					<div
+							class="col-xl-4">
+						<!-- Profile picture card-->
+						<div class="card mb-4 mb-xl-0">
+							<div class="card-header">Profile Picture</div>
+							<div
+									class="card-body text-center">
+								<!-- Profile picture image-->
+								<img
+										class="img-account-profile rounded-circle mb-2" src="{{ asset('uploads/photos/' ~ user.photo) }}" alt="User Photo">
+								<!-- Profile picture help block-->
+
+							</div>
+						</div>
+					</div>
+					<div
+							class="col-xl-8">
+						<!-- Account details card-->
+						<div class="card mb-4">
+							<div class="card-header">Account Details</div>
+							<div class="card-body">
+								<!-- Form Group (username)-->
+								<div class="mb-3">
+									<label  class="small mb-1" for="inputUsername">Email</label>
+									<input disabled class="form-control" id="inputUsername" type="text" placeholder="Enter your email" value="{{app.user.email}}">
+								</div>
+								<!-- Form Row-->
+								<div
+										class="row gx-3 mb-3">
+									<!-- Form Group (first name)-->
+									<div class="col-md-6">
+										<label class="small mb-1" for="inputFirstName">First name</label>
+										<input disabled class="form-control" id="inputFirstName" type="text" placeholder="Enter your first name" value="{{app.user.name}}">
+									</div>
+									<!-- Form Group (last name)-->
+									<div class="col-md-6">
+										<label class="small mb-1" for="inputLastName">Last name</label>
+										<input disabled class="form-control" id="inputLastName" type="text" placeholder="Enter your last name" value="{{app.user.lastname}}">
+									</div>
+								</div>
+
+
+								<!-- Form Row        -->
+								<div
+										class="row gx-3 mb-3">
+									<!-- Form Group (organization name)-->
+									<div class="col-md-6">
+										<label class="small mb-1" for="inputGender">Gender</label>
+										<select class="form-control" id="inputGender" disabled>
+											<option selected disabled >Select Gender</option>
+											<option value="male" {% if app.user.gender == 'male' %} selected {% endif %}>Male</option>
+											<option value="female" {% if app.user.gender == 'female' %} selected {% endif %}>Female</option>
+										</select>
+									</div>
+									<!-- Form Group (Birthdate)-->
+									<div class="col-md-6">
+										<label class="small mb-1" for="inputBirthdate">Birthdate</label>
+										<input disabled class="form-control" id="inputBirthdate" value="{{ app.user.birthDate ? app.user.birthDate|date('Y-m-d') : '' }}">
+									</div>
+								</div>
+								<!-- Form Group (email address)-->
+
+								<!-- Form Row-->
+								<div
+										class="row gx-3 mb-3">
+									<!-- Form Group (phone number)-->
+
+									<!-- Save changes button-->
+									<a href="{{ path('user_edit', {'userId': app.user.id}) }}" class="btn btn-success">Edit</a>
+								</div>
+							</div>
+						</div>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+{% endblock %}
+
+{% block js %}
+	{{ parent() }}
+{% endblock %}

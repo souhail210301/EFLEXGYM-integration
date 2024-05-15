@@ -1,0 +1,29 @@
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <div class="mb-3">
+                      {{ form_label(form.image, "image", {'class': 'form-label'}) }}
+                
+                      <img id="imagePreview" src="#" alt="Preview" class="preview-image" style="max-width: 200px; display: none; margin-top: 10px;">
+                      {{ form_errors(form.image) }}
+                  </div>
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+<script>
+    function previewImage(input) {
+        var preview = document.getElementById('imagePreview');
+        var file = input.files[0];
+        var reader = new FileReader();
+
+        reader.onloadend = function () {
+            preview.src = reader.result;
+            preview.style.display = 'block';
+        }
+
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = "#";
+            preview.style.display = 'none';
+        }
+    }
+</script>

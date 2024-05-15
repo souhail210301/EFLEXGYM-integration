@@ -1,0 +1,64 @@
+{% extends 'back.html.twig' %}
+
+{% block body %}
+<div class="container-fluid">
+    
+        
+                <div class="card">
+                    <div class="card-body">
+                        {{ form_start(form) }}
+                        <div class="form-group">
+                            <div class="input-container">
+                                {{ form_row(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Email'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-container">
+                                {{ form_row(form.password, {'attr': {'class': 'form-control', 'placeholder': 'Password'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-container">
+                                {{ form_row(form.name, {'attr': {'class': 'form-control', 'placeholder': 'Name'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-container">
+                                {{ form_row(form.lastName, {'attr': {'class': 'form-control', 'placeholder': 'Last Name'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-container">
+                                {{ form_row(form.birthDate, {'attr': {'class': 'form-control', 'placeholder': 'Birth Date'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-container">
+                                {{ form_row(form.gender, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-container">
+                                {{ form_row(form.role, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-container">
+                                {{ form_row(form.salaire, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-container">
+                                {{ form_row(form.idBilanFinancier, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+
+        
+    
+</div>
+{% endblock %}

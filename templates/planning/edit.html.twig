@@ -1,0 +1,60 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Edit Planning{% endblock %}
+
+{% block body %}
+    <h1>Edit Planning</h1>
+
+    {{ form_start(form) }}
+    {{ form_row(form.salle) }}
+    {{ form_row(form.nbPlaceMax) }}
+    {{ form_row(form.date) }}
+    {{ form_row(form.heure) }}
+    {{ form_row(form.cour) }}
+    {{ form_row(form.coach) }}
+    <button type="submit" onclick="return validateForm()">Update</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('app_planning_index') }}">back to list</a>
+
+    <script>
+        function validateForm() {
+            var salleField = document.getElementById('{{ form.salle.vars.id }}');
+            var salleValue = salleField.value.trim();
+            if (salleValue === '') {
+                alert('La salle ne peut pas être vide.');
+                salleField.focus();
+                return false;
+            }
+
+            var nbPlaceMaxField = document.getElementById('{{ form.nbPlaceMax.vars.id }}');
+            var nbPlaceMaxValue = nbPlaceMaxField.value.trim();
+            if (nbPlaceMaxValue === '') {
+                alert('Le nombre de places maximum ne peut pas être vide.');
+                nbPlaceMaxField.focus();
+                return false;
+            }
+
+            var dateField = document.getElementById('{{ form.date.vars.id }}');
+            var dateValue = dateField.value.trim();
+            if (dateValue === '') {
+                alert('La date ne peut pas être vide.');
+                dateField.focus();
+                return false;
+            }
+
+            var heureField = document.getElementById('{{ form.heure.vars.id }}');
+            var heureValue = heureField.value.trim();
+            if (heureValue === '') {
+                alert('L\'heure ne peut pas être vide.');
+                heureField.focus();
+                return false;
+            }
+
+            return true; // Allow form submission if all checks pass
+        }
+    </script>
+
+
+    {{ include('planning/_delete_form.html.twig') }}
+{% endblock %}

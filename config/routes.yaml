@@ -1,0 +1,26 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+statistiques:
+    path: /statistique
+    controller: App\Controller\BilanFinancierController::statistiques
+    methods: ['GET', 'POST']
+recipes_search_form_submit:
+    path: /recipes/search
+    controller: App\Controller\RecipeController::searchFormSubmit
+    methods: [POST]
+recipes_search:
+    path: /recipes/{query}
+    controller: App\Controller\RecipeController::search
+    methods: [GET]
+participate_event:
+    path: /participate/{eventId}
+    controller: App\Controller\ParticipationController::participateEvent
+app_participation_participate:
+    path: /participate/{eventId}
+    controller: App\Controller\ParticipationController::participateEvent
+    methods: [GET]
+# routes.yaml
+app_evenement_details:
+    path: /events/{id}
+    controller: App\Controller\EvenementController::details

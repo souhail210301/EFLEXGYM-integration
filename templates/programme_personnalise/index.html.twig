@@ -1,0 +1,155 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}ProgrammePersonnalise index{% endblock %}
+
+{% block body %}
+
+<div class="d-flex justify-content-between align-items-center">
+    <h1 class="mb-0">Programme Personnalise</h1>
+    <a href="{{ path('app_programme_personnalise_new') }}" class="btn btn-primary">Create New</a>
+</div>
+<br>
+<form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+    <div class="input-group">
+        <input class="form-control" type="text" id="searchInput" placeholder="Search for..." aria-label="Search for..."
+            aria-describedby="btnNavbarSearch" />
+        <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+    </div>
+</form>
+<br>
+<table id="programmeTable" class="table">
+    <thead>
+        <tr>
+            <th>Id <span id="idSortIcon"></span></th>
+            <th onclick="sortTable(1)">Objectif <span id="objectifSortIcon"></span></th>
+            <th>Exercices</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for programme_personnalise in programme_personnalises %}
+        <tr>
+            <td>{{ programme_personnalise.id }}</td>
+            <td>{{ programme_personnalise.objectif }}</td>
+            <td>
+                <ul>
+                    {% for exercice in programme_personnalise.exercices %}
+                    <li>{{ exercice.nom }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>
+                <div class="row">
+                    <div class="col-auto">
+                        <a class="btn btn-primary"
+                            href="{{ path('app_programme_personnalise_show', {'id': programme_personnalise.id}) }}">
+                            <i class="fa-solid fa-eye"></i>
+                        </a>
+                    </div>
+                    <div class="col-auto">
+                        <a class="btn btn-success"
+                            href="{{ path('app_programme_personnalise_edit', {'id': programme_personnalise.id}) }}">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                    </div>
+                    <div class="col-auto">
+                        {{ include('programme_personnalise/_delete_form.html.twig') }}
+                    </div>
+                </div>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="3">no records found</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+    var ascending = true; // Initial sorting order
+
+    function sortTable(columnIndex) {
+        var table, rows, switching, i, x, y, shouldSwitch;
+        table = document.getElementById("programmeTable");
+        switching = true;
+        while (switching) {
+            switching = false;
+            rows = table.rows;
+            for (i = 1; i < (rows.length - 1); i++) {
+                shouldSwitch = false;
+                x = rows[i].getElementsByTagName("td")[columnIndex];
+                y = rows[i + 1].getElementsByTagName("td")[columnIndex];
+                if (ascending) {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+            }
+        }
+        // Toggle sorting order
+        ascending = !ascending;
+        // Update sorting icons
+        updateSortIcons(columnIndex);
+    }
+
+    function updateSortIcons(columnIndex) {
+        var iconId = getColumnSortIconId(columnIndex);
+        var iconElement = document.getElementById(iconId);
+        if (iconElement) {
+            iconElement.innerHTML = ascending ? '<i class="fa-solid fa-caret-up"></i>' : '<i class="fa-solid fa-caret-down"></i>';
+        }
+    }
+
+    function getColumnSortIconId(columnIndex) {
+        switch (columnIndex) {
+            case 0: return 'idSortIcon';
+            case 1: return 'objectifSortIcon';
+            default: return '';
+        }
+    }
+
+    function searchTable() {
+        var input, filter, table, tr, td, i, j, txtValue;
+        input = document.getElementById("searchInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("programmeTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 1; i < tr.length; i++) { // Start from index 1 to skip the header row
+            td = tr[i].getElementsByTagName("td");
+            var found = false;
+            for (j = 0; j < td.length; j++) {
+                if (td[j]) {
+                    txtValue = td[j].textContent || td[j].innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            if (found) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+
+
+    document.getElementById("searchInput").addEventListener("keyup", function () {
+        searchTable();
+    });
+
+</script>
+
+{% endblock %}

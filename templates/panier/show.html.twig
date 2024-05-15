@@ -1,0 +1,34 @@
+{# templates/panier/show.html.twig #}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Panier</title>
+</head>
+<body>
+    <h1>Panier</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ panier.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ panier.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>{{ panier.prix }}</td>
+            </tr>
+            <tr>
+                <th>User ID</th>
+                <td>{{ panier.id_user }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('panier_index') }}">Back to list</a>
+</body>
+</html>

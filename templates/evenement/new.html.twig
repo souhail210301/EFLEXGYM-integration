@@ -1,0 +1,41 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Create new Evenement{% endblock %}
+
+{% block body %}
+    <h1>Create new Evenement</h1>
+    {{ form_start(form) }}
+    <div class="mb-3">
+        {{ form_label(form.eventName, 'Event name') }}
+        {{ form_widget(form.eventName) }}
+    </div>
+    <div class="mb-3">
+        {{ form_label(form.dateDebut, 'Date debut') }}
+        {{ form_widget(form.dateDebut) }}
+    </div>
+    <div class="mb-3">
+        {{ form_label(form.dateFin, 'Date fin') }}
+        {{ form_widget(form.dateFin) }}
+    </div>
+    <div class="mb-3">
+        {{ form_label(form.duration, 'Duration') }}
+        {{ form_widget(form.duration) }}
+    </div>
+    <div class="mb-3">
+        {{ form_label(form.image, 'Event Image') }}
+        {{ form_widget(form.image) }}
+    </div>
+    <div class="mb-3">
+        {{ form_label(form.place, 'Place') }}
+        {{ form_widget(form.place) }}
+    </div>
+    <div class="mb-3">
+        {{ form_label(form.type, 'Type') }}
+        {{ form_widget(form.type) }}
+    </div>
+    <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+
+
+    <a href="{{ path('app_evenement_index') }}">back to list</a>
+{% endblock %}

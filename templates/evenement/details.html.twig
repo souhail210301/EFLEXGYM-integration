@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Event Details</title>
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/details.css') }}">
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        /* Container Styles */
+        .container {
+            background-image: url('{{ asset('uploads/' ~ evenement.image) }}');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        /* Event Details Styles */
+        .details-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .event-name {
+            margin-top: 0;
+            font-size: 24px;
+            color: #f7941e; /* Orange */
+        }
+
+        .details p {
+            margin: 10px 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .details p strong {
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .details-container {
+                padding: 10px;
+            }
+            .event-name {
+                font-size: 20px;
+            }
+            .details p {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+   <a href="{{ path('app_blog') }}">Home</a>
+        <div class="details-container">
+            <h2 class="event-name">{{ evenement.eventName }}</h2>
+            <div class="details">
+                <p><strong>Start Date:</strong> {{ evenement.dateDebut|date('Y-m-d') }}</p>
+                <p><strong>End Date:</strong> {{ evenement.dateFin|date('Y-m-d') }}</p>
+                <p><strong>Duration:</strong> {{ evenement.duration }}</p>
+                <p><strong>Place:</strong> {{ evenement.place }}</p>
+            </div>
+            {# Display weather data #}
+            {% if weather %}
+                <div class="weather-info">
+                    <p><strong>Weather:</strong> {{ weather.condition.text }}</p>
+                    <p><strong>Average Temperature:</strong> {{ weather.avgtemp_c }}°C</p>
+                    <p><strong>Humidity:</strong> {{ weather.avghumidity }}%</p>
+                    {# Add more weather data as needed #}
+                </div>
+            {% else %}
+                <p>No weather data available.</p>
+            {% endif %}
+        </div>
+    </div>
+    <script src="{{ asset('js/details.js') }}"></script>
+</body>
+</html>

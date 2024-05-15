@@ -1,0 +1,26 @@
+{% extends 'index.html.twig' %}
+{% block title %}New Reservation{% endblock %}
+
+
+{% block sarra %}
+    <h1>Create new Reservation</h1>
+    {{ form_start(form) }}
+    {{ form_row(form.idPlaning) }}
+    {{ form_row(form.numTell) }}
+    {{ form_row(form.idUser) }}
+    <button type="submit" onclick="return validateForm()">Save</button>
+{{ form_end(form) }}
+    <script>
+    function validateForm() {
+            var numTellField = document.getElementById('{{ form.numTell.vars.id }}');
+            var numTellValue = numTellField.value.trim();
+            if (numTellValue === '') {
+                alert('La numTell ne peut pas être vide.');
+                numTellField.focus();
+                return false;
+            }
+     return true;
+    }
+    </script>
+    <a href="{{ path('app_calendarplanning') }}">back to Planning</a>
+{% endblock %}

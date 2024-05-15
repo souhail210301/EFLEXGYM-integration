@@ -1,0 +1,46 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Planning{% endblock %}
+
+{% block body %}
+    <h1>Planning</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ planning.id }}</td>
+            </tr>
+            <tr>
+                <th>Salle</th>
+                <td>{{ planning.salle }}</td>
+            </tr>
+            <tr>
+                <th>NbPlaceMax</th>
+                <td>{{ planning.nbPlaceMax }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ planning.date ? planning.date|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Heure</th>
+                <td>{{ planning.heure }}</td>
+            </tr>
+            <tr>
+                <th>Cours</th>
+                <td>{{ planning.cour.nom }}</td> <!-- Access the related Cours entity's properties -->
+            </tr>
+            <tr>
+                <th>Coach</th>
+                <td>{{ planning.coach.Nom }}</td> <!-- Display coach's name -->
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_planning_index') }}">back to list</a>
+
+    <a href="{{ path('app_planning_edit', {'id': planning.id}) }}">edit</a>
+
+    {{ include('planning/_delete_form.html.twig') }}
+{% endblock %}

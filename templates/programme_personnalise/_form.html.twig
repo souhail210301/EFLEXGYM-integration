@@ -1,0 +1,17 @@
+<style>
+    .error-message {
+        color: red;
+    }
+</style>
+{{ form_start(form, {'attr': {'class': 'form','novalidate': 'novalidate'}}) }}
+<div class="form-group">
+        {{ form_label(form.objectif, 'Objectif', { 'attr': {'class': 'control-label'} }) }}
+        {{ form_widget(form.objectif, { 'attr': {'class': 'form-control'} }) }}
+        <div class="error-message">
+        {{ form_errors(form.objectif) }}
+        </div>
+    </div>
+<br>
+<div class="text-center">
+    <button type="submit" class="btn btn-primary">{{ button_label|default('Save') }}</button>
+</div>{{ form_end(form) }}

@@ -1,0 +1,103 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Liste des Abonnements{% endblock %}
+
+{% block body %}
+    <h1>Liste des Abonnements</h1>
+    <div>
+        <form method="get" action="{{ path('app_abonnement_index') }}">
+            <label for="type_filter">Filtrer par type :</label>
+            <select name="type_filter" id="type_filter">
+                <option value="">Tous</option>
+                <option value="annuel">Annuel</option>
+                <option value="mensuel">Mensuel</option>
+            </select>
+            <button type="submit">Filtrer</button>
+            <a href="{{ path('app_abonnement_index') }}" class="btn btn-primary">Actualiser</a>
+        </form>
+    </div>
+
+    <div id="search-container">
+        <label for="search">Rechercher par nom :</label>
+        <input type="text" id="search" name="search">
+    </div>
+
+    <div id="abonnements-container">
+        <!-- Search results or default table content will be rendered here -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Type</th>
+                    <th>Prix</th>
+                    <th>DateDebut</th>
+                    <th>DateFin</th>
+                    <th>Etat</th>
+                    <th>Adhérent</th>
+                    <th>Bilan Financier</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for abonnement in abonnements %}
+                    <tr>
+                        <td>{{ abonnement.id }}</td>
+                        <td>{{ abonnement.type }}</td>
+                        <td>{{ abonnement.prix }}</td>
+                        <td>{{ abonnement.dateDebut ? abonnement.dateDebut|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>{{ abonnement.dateFin ? abonnement.dateFin|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>{{ abonnement.etat }}</td>
+                        <td>{{ abonnement.idAdherent.name}}</td>
+                        <td>{{ abonnement.idBilanFinancier.id }}</td>
+                        <td>
+                            <a href="{{ path('app_abonnement_show', {'id': abonnement.id}) }}"><i class="fas fa-eye"></i></a>
+                            {{ include('abonnement/_delete_form.html.twig', {'id': abonnement.id}) }}
+                            <form method="post" action="{{ path('app_send_email') }}">
+                                <input type="hidden" name="abonnement_id" value="{{ abonnement.id }}">
+                                <button type="submit" class="btn btn-light"><i class="fas fa-envelope"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="9">Aucun résultat trouvé.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pagination-container text-center">
+        {{ knp_pagination_render(
+            abonnements,
+            '@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig',
+            {
+                'prev_message': 'Précédent',
+                'next_message': 'Suivant'
+            }
+        ) }}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#search').on('input', function() {
+                var searchTerm = $(this).val();
+
+                $.ajax({
+    type: 'GET',
+    url: '{{ path('app_abonnement_search') }}',
+    data: {
+        'search_term': searchTerm
+    },
+    success: function(response) {
+        $('#abonnements-container').html(response);
+    },
+    error: function(xhr, status, error) {
+        console.error(error);
+    }
+});
+            });
+        });
+    </script>
+{% endblock %}

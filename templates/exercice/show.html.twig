@@ -1,0 +1,74 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Exercice{% endblock %}
+
+{% block body %}
+<style>
+    .back-link {
+        color: #007bff;
+        /* Change color to your preferred color */
+        text-decoration: none;
+        /* Remove default underline */
+        font-size: 24px;
+        /* Adjust font size as needed */
+        margin-right: 10px;
+        /* Add some margin to the right */
+    }
+</style>
+<div class="container">
+    <a href="{{ path('app_exercice_index') }}" class="back-link">
+        <i class="fa-solid fa-arrow-left"></i>
+    </a>
+    <div class="d-flex align-items-center">
+        <h1>Edit Programme Personnalise</h1>
+    </div>
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ exercice.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ exercice.nom }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ exercice.description }}</td>
+            </tr>
+            <tr>
+                <th>Nombre De Set</th>
+                <td>{{ exercice.nbrdeset }}</td>
+            </tr>
+            <tr>
+                <th>Groupe Musculaire</th>
+                <td>{{ exercice.groupemusculaire }}</td>
+            </tr>
+            <tr>
+                <th>Nombre De Repetitions</th>
+                <td>{{ exercice.nbrderepetitions }}</td>
+            </tr>
+            <tr>
+                <th>Categorie Exercice</th>
+                <td>{{ exercice.categorieexercice }}</td>
+            </tr>
+            <tr>
+                <th>Type Equipement</th>
+                <td>{{ exercice.typeequipement }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <div class="row">
+        <div class="col-auto">
+            <a class="btn btn-success" href="{{ path('app_exercice_edit', {'id': exercice.id}) }}">
+                <i class="fa-solid fa-pen-to-square"></i>
+            </a>
+        </div>
+        <div class="col-auto">
+            {{ include('exercice/_delete_form.html.twig') }}
+        </div>
+    </div>
+
+    {% endblock %}

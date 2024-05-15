@@ -1,0 +1,37 @@
+{% extends 'index.html.twig' %}
+
+{% block title %}Reservation index{% endblock %}
+
+{% block sarra %}
+    <h1>Reservation index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IdReservation</th>
+                <th>IdPlaning</th>
+                <th>NumTell</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for reservation in reservations %}
+            <tr>
+                <td>{{ reservation.idReservation }}</td>
+                <td>{{ reservation.idPlaning }}</td>
+                <td>{{ reservation.numTell }}</td>
+                <td>
+                    <a href="{{ path('app_reservation_show', {'idReservation': reservation.idReservation}) }}">show</a>
+                    <a href="{{ path('app_reservation_edit', {'idReservation': reservation.idReservation}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_reservation_new') }}">Create new</a>
+{% endblock %}

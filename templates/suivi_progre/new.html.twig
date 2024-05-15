@@ -1,0 +1,33 @@
+{% extends 'index.html.twig' %}
+
+{% block title %}New SuiviProgre{% endblock %}
+
+{% block body %}
+<style>
+    .back-link {
+        color: orange;
+        /* Change color to your preferred color */
+        text-decoration: none;
+        /* Remove default underline */
+        font-size: 24px;
+        /* Adjust font size as needed */
+        margin-right: 10px;
+        /* Add some margin to the right */
+    }
+
+    .back-link:hover {
+        color: orange;
+    }
+</style>
+<div class="container">
+    <a href="{{ path('app_suivi_progre_index') }}" class="back-link">
+        <i class="fa-solid fa-arrow-left"></i>
+    </a>
+    <div class="d-flex align-items-center">
+        <h1>Mes Mesures</h1>
+    </div>
+
+    {{ include('suivi_progre/_form.html.twig') }}
+</div>
+<br>
+{% endblock %}

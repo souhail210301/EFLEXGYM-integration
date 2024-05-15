@@ -1,0 +1,39 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}<h1 style="color: #000;">Détails du Produit</h1>{% endblock %}
+
+{% block body %}
+   
+    <dl class="row">
+        <dt class="col-sm-3">Id</dt>
+        <dd class="col-sm-9">{{ produit.id }}</dd>
+        
+        <dt class="col-sm-3">Nom</dt>
+        <dd class="col-sm-9">{{ produit.nom }}</dd>
+        
+        <dt class="col-sm-3">Image</dt>
+        <dd class="col-sm-9"><img src="{{ asset('uploads/' ~ produit.image) }}" alt="{{ produit.nom }}" style="max-height: 200px;"></dd>
+        
+        <dt class="col-sm-3">Prix</dt>
+        <dd class="col-sm-9">{{ produit.prix }}</dd>
+        
+        <dt class="col-sm-3">Quantité</dt>
+        <dd class="col-sm-9">{{ produit.quantite }}</dd>
+        
+        <dt class="col-sm-3">Description</dt>
+        <dd class="col-sm-9">{{ produit.description }}</dd>
+        
+        <dt class="col-sm-3">Catégorie</dt>
+        <dd class="col-sm-9">{{ produit.categorie }}</dd>
+    </dl>
+
+    <div style="text-align: center;">
+        <a href="{{ path('app_produit_index') }}" class="btn btn-secondary" style="background-color: #f8000; color: #fff;">Retour à la liste</a>
+        <a href="{{ path('app_produit_edit', {'id': produit.id}) }}" class="btn btn-primary" style="background-color: #000; color: #fff;">Modifier</a>
+        <form action="{{ path('app_produit_delete', {'id': produit.id}) }}" method="post" style="display: inline-block;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce produit?');">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ produit.id) }}">
+            <button type="submit" class="btn btn-danger" style="background-color: #f8000; color: #fff;">Supprimer</button>
+        </form>
+    </div>
+{% endblock %}

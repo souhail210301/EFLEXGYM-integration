@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Suivi Progre n°{{ suivi_progre.id }}</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    h5 {
+      font-size: 18px;
+      margin-top: 30px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="d-flex align-items-center">
+    <h1>Suivi Progre</h1>
+  </div>
+  <br>
+  <h2>{{ evaluation_message }}</h2>
+  <br>
+  <table class="table">
+    <tbody>
+      <tr>
+        <th>Nom</th>
+        <td>{{ suivi_progre.nom }}</td>
+      </tr>
+      <tr>
+        <th>Prenom</th>
+        <td>{{ suivi_progre.prenom }}</td>
+      </tr>
+      <tr>
+        <th>Age</th>
+        <td>{{ suivi_progre.age }}</td>
+      </tr>
+      <tr>
+        <th>Taille</th>
+        <td>{{ suivi_progre.taille }}</td>
+      </tr>
+      <tr>
+        <th>Poids</th>
+        <td>{{ suivi_progre.poids }}</td>
+      </tr>
+      <tr>
+        <th>Tour De Taille</th>
+        <td>{{ suivi_progre.tourDeTaille }}</td>
+      </tr>
+      <tr>
+        <th>Sexe</th>
+        <td>{{ suivi_progre.sexe }}</td>
+      </tr>
+      <tr>
+        <th>Iduser</th>
+        <td>{{ suivi_progre.iduser }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  <h5>Voici Votre programme {{ programmeToFollow.objectif }} Courage!</h5>
+  <table>
+    <tbody>
+      <tr>
+        <th>Objectif</th>
+        <td>{{ programmeToFollow.objectif }}</td>
+      </tr>
+      <tr>
+        <th>Exercices</th>
+        <td>
+          <ul>
+            {% for exercice in programmeToFollow.exercices %}
+            <li>{{ exercice.nom }}
+              <ul>
+                <li>Sets: {{ exercice.nbrdeset }}</li>
+                <li>Repetition: {{ exercice.nbrderepetitions }}</li>
+              </ul>
+            </li>
+            {% endfor %}
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+
+</html>

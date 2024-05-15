@@ -1,0 +1,41 @@
+{% extends 'back.html.twig' %}
+{% block title %}Ajouter un abonnement{% endblock %}
+
+{% block body %}
+    <h1>Ajouter un abonnement</h1>
+
+    {{ include('abonnement/_form.html.twig') }}
+   
+</div>
+
+<style>
+    /* Style the alert box */
+    .alert {
+        padding: 20px;
+        background-color: #f44336; /* Red */
+        color: white;
+        margin-bottom: 15px;
+        border-radius: 5px;
+    }
+
+    /* Style the close button */
+    .closebtn {
+        margin-left: 15px;
+        color: white;
+        font-weight: bold;
+        float: right;
+        font-size: 22px;
+        line-height: 20px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    /* When hovering over the close button */
+    .closebtn:hover {
+        color: black;
+    }
+</style>
+
+
+    <a href="{{ path('app_abonnement_index') }}">Retour</a>
+{% endblock %}

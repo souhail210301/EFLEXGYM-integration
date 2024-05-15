@@ -1,0 +1,38 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Categorie index{% endblock %}
+{% block t %}Categorie index{% endblock %}
+{% block body %}
+    <h1>Categorie index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for categorie in categories %}
+                <tr>
+                    <td>{{ categorie.id }}</td>
+                    <td>{{ categorie.type }}</td>
+                    <td>{{ categorie.description }}</td>
+                    <td>
+                        <a href="{{ path('app_categorie_show', {'id': categorie.id}) }}">Show</a>
+                        <a href="{{ path('app_categorie_edit', {'id': categorie.id}) }}">Edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_categorie_new') }}">Create New</a>
+    <a href="{{ path('app_produit_index') }}" style="color: grey; display: none;">Produit Page</a> <!-- Apply grey color and hide content -->
+{% endblock %}

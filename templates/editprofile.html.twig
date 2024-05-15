@@ -1,0 +1,86 @@
+{% extends 'index.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.1.4/css/sb-admin-2.min.css" rel="stylesheet">
+<style>
+    body {
+        background-color: #000000; /* Set the background color to black */
+        color: #fff; /* Set the text color to white */
+    }
+    .container-fluid {
+        padding-top: 20px;
+    }
+    .login-box {
+        background-color: #fff;
+        border-radius: 1rem;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+    }
+    .card {
+        border: 0;
+    }
+    .card-body {
+        padding: 2rem;
+    }
+    .form-control {
+        border-radius: 0.5rem;
+    }
+    .btn-primary {
+        border-radius: 0.5rem;
+    }
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+    <h1 class="card-title text-center mb-4">Update User</h1>
+    <div class="card">
+        <div class="card-body">
+            {{ form_start(form) }}
+            <div class="form-group">
+                <div class="input-container">
+                    {{ form_row(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Email'}}) }}
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-container">
+                    {{ form_row(form.password, {'attr': {'class': 'form-control', 'placeholder': 'Password'}}) }}
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-container">
+                    {{ form_row(form.name, {'attr': {'class': 'form-control', 'placeholder': 'Name'}}) }}
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-container">
+                    {{ form_row(form.lastName, {'attr': {'class': 'form-control', 'placeholder': 'Last Name'}}) }}
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-container">
+                    {{ form_row(form.birthDate, {'attr': {'class': 'form-control', 'placeholder': 'Birth Date'}}) }}
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-container">
+                    {{ form_row(form.gender, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form_label(form.photoFile, 'Choose Photo', {'label_attr': {'class': 'btn btn-success'}}) }}
+                {{ form_widget(form.photoFile, {'attr': {'class': 'form-control', 'capture': 'camera', 'style': 'display: none;'}}) }}
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+    <a href="{{ path('app_user_index') }}" class="btn btn-primary">Back to list</a>
+    {{ include('user/_delete_form.html.twig') }}
+
+{% endblock %}

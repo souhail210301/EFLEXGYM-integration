@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Rapport financier mensuel - E-Flex Gym</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+        .section-title {
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .financial-details {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .financial-details p {
+            margin: 10px 0;
+        }
+        .total {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: right;
+            margin-top: 20px;
+        }
+        .signature {
+            margin-top: 40px;
+            text-align: center;
+        }
+        .signature p {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Rapport financier mensuel - E-Flex Gym</h1>
+        <div class="section-title">
+            <h2>Rapport détaillé du bilan financier - Mois {{ month }}</h2>
+        </div>
+
+        <div class="financial-details">
+            <p><strong>Revenus des abonnements :</strong> {{ revenusAbonnements }} TND</p>
+            <p><strong>Revenus des produits :</strong> {{ revenusProduits }} TND</p>
+            <p><strong>Dépenses :</strong> {{ depenses }} TND</p>
+            <p><strong>Profit :</strong> {{ profit }} TND</p>
+            <!-- Autres informations financières -->
+        </div>
+
+       
+
+        <div class="signature">
+            <p>_____________________________</p>
+            <p>Signature</p>
+        </div>
+    </div>
+</body>
+</html>

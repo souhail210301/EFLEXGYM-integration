@@ -1,0 +1,35 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Edit SuiviProgre{% endblock %}
+
+{% block body %}
+<style>
+  .back-link {
+    color: #007bff;
+    /* Change color to your preferred color */
+    text-decoration: none;
+    /* Remove default underline */
+    font-size: 24px;
+    /* Adjust font size as needed */
+    margin-right: 10px;
+    /* Add some margin to the right */
+  }
+
+  .back-link:hover {
+    color: #007bff;
+  }
+</style>
+<div class="container">
+  <a href="{{ path('app_suivi_progre_index') }}" class="back-link">
+    <i class="fa-solid fa-arrow-left"></i>
+  </a>
+  <div class="d-flex align-items-center">
+    <h1>Edit Suivi Progre</h1>
+  </div>
+  {{ include('suivi_progre/_form.html.twig', {'button_label': 'Update'}) }}
+  <br>
+  <div class="text-center">
+    {{ include('suivi_progre/_delete_form.html.twig') }}</div>
+</div>
+<br>
+{% endblock %}

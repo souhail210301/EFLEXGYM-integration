@@ -1,0 +1,58 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Détails du Bilan Financier{% endblock %}
+
+{% block body %}
+    <h1>Détails du Bilan Financier</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Mois</th>
+                <td>{{bilan_financier.dateDebut|date('n')}}</td>
+            </tr>
+            <tr>
+                <th>Date de Début</th>
+                <td>{{ bilan_financier.dateDebut ? bilan_financier.dateDebut|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Date de Fin</th>
+                <td>{{ bilan_financier.dateFin ? bilan_financier.dateFin|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Salaires des Coachs</th>
+                <td>{{ bilan_financier.salairesCoachs }}</td>
+            </tr>
+            <tr>
+                <th>Prix de Location</th>
+                <td>{{ bilan_financier.prixLocation }}</td>
+            </tr>
+            <tr>
+                <th>Revenus des Abonnements</th>
+                <td>{{ bilan_financier.revenusAbonnements }}</td>
+            </tr>
+            <tr>
+                <th>Revenus des Produits</th>
+                <td>{{ bilan_financier.revenusProduits }}</td>
+            </tr>
+            <tr>
+                <th>Dépenses</th>
+                <td>{{ bilan_financier.depenses }}</td>
+            </tr>
+            <tr>
+                <th>Profit</th>
+                <td>{{ bilan_financier.profit }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+     <div class="btn-group" role="group" aria-label="Action Buttons">
+        <a href="{{ path('app_bilan_financier_index') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Retour
+        </a>
+        <a href="{{ path('app_bilan_financier_edit', {'id': bilan_financier.id}) }}" class="btn btn-primary">
+            <i class="fas fa-pencil-alt"></i> Éditer
+        </a>
+        {{ include('bilan_financier/_delete_form.html.twig') }}
+    </div>
+{% endblock %}

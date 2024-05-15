@@ -1,0 +1,45 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}New Cours{% endblock %}
+
+{% block body %}
+    <h1>Create new Cours</h1>
+
+    {{ form_start(form) }}
+    {{ form_row(form.nom) }}
+    {{ form_row(form.type) }}
+    {{ form_row(form.duree) }}
+    <button type="submit" onclick="return validateForm()">Save</button>
+{{ form_end(form) }}
+
+<script>
+    function validateForm() {
+        var nomField = document.getElementById('{{ form.nom.vars.id }}');
+        var nomValue = nomField.value.trim();
+        if (nomValue === '') {
+            alert('Le nom du cours ne peut pas être vide.');
+            nomField.focus();
+            return false; // Prevent form submission
+        }
+
+        var typeField = document.getElementById('{{ form.type.vars.id }}');
+        var typeValue = typeField.value.trim();
+        if (typeValue === '') {
+            alert('Le type du cours ne peut pas être vide.');
+            typeField.focus();
+            return false; // Prevent form submission
+        }
+
+        var dureeField = document.getElementById('{{ form.duree.vars.id }}');
+        var dureeValue = dureeField.value.trim();
+        if (dureeValue === '') {
+            alert('La durée du cours ne peut pas être vide.');
+            dureeField.focus();
+            return false; // Prevent form submission
+        }
+
+        return true; // Allow form submission if all checks pass
+    }
+</script>
+
+{% endblock %}

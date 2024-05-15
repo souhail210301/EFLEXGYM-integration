@@ -1,0 +1,41 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Planning Calendar{% endblock %}
+
+{% block body %}
+    <div>
+        <a href="{{ path('app_planning_new') }}" class="btn btn-primary">Add New Planning</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js" integrity="sha256-i4vDW9EgtaJmeauDDymtNF2omPZ1fCKpf4w1gBlU1IE=" crossorigin="anonymous"></script>
+    <div id='calendar'></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events: [
+                    {% for planning in plannings %}
+                        {
+                            title: '{{ planning.salle }} - {{ planning.cour.nom }}',
+                            start: '{{ planning.date|date("Y-m-d") }}T{{ planning.heure }}',
+                            id: '{{ planning.id }}', // Add the event ID
+                        },
+                    {% endfor %}
+                ],
+                eventClick: function(info) {
+                    // Handle event click here
+                    var eventId = info.event.id; // Get the event ID
+                    var eventTitle = info.event.title; // Get the event title
+                    var eventStart = info.event.start; // Get the event start date
+
+                    // You can perform actions based on the clicked event, e.g., show details, modify, or delete
+                    // Example: Redirect to a URL to view event details
+                    window.location.href = '/planning/' + eventId;
+                }
+            });
+            calendar.render();
+        });
+    </script>
+{% endblock %}
