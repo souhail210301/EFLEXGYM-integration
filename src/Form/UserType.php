@@ -38,8 +38,8 @@ class UserType extends AbstractType
             ])
             ->add('role', ChoiceType::class, [
                 'choices' => [
-                    'Adherent' => 'adherent',
-                    'Coach' => 'coach',
+                    'Adherent' => 'Adherent',
+                    'Coach' => 'Coach',
                     // Choices array
                 ],
                 'multiple' => false, // Ensure it accepts only single values
