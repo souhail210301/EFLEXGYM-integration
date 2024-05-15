@@ -11,8 +11,8 @@ use MyCLabs\Enum\Enum;
  */
 class RoleUser extends Enum
 {
-    private const ADHERENT = 'adherent';
-    private const COACH = 'coach';
+    private const ADHERENT = 'Adherent';
+    private const COACH = 'Coach';
 
-    private const ADMIN= 'admin';
+    private const ADMIN= 'Admin';
 }
